@@ -1,3 +1,5 @@
+package tests.schoolTests;
+
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.jsoup.Jsoup;
