@@ -22,11 +22,17 @@ public class Assertions {
         assertEquals(expectedStatusCode, String.valueOf(response.getStatusCode()), "Response status code is not as expected");
     }
 
-    public static void assertJsonHasKey(Response response, String expectedFieldName) {
+    public static void assertJsonHasField(Response response, String expectedFieldName) {
         response.then().assertThat().body("$", hasKey(expectedFieldName));
     }
 
-    public static void assertJsonHasNotKey(Response response, String unexpectedFieldName) {
+    public static void assertJsonHasFields(Response response, String[] expectedFieldNames) {
+        for (String expectedFieldName : expectedFieldNames) {
+            assertJsonHasField(response, expectedFieldName);
+        }
+    }
+
+    public static void assertJsonHasNotField(Response response, String unexpectedFieldName) {
         response.then().assertThat().body("$", not(hasKey(unexpectedFieldName)));
     }
 }
