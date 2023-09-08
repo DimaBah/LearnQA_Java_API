@@ -19,7 +19,6 @@ public class UserRegisterTest extends BaseTestCase {
     private static final String KEY_FIRSTNAME = "firstName";
     private static final String KEY_LASTNAME = "lastName";
     private static final String URL_USER = "https://playground.learnqa.ru/api/user/";
-
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
