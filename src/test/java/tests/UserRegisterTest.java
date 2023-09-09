@@ -7,31 +7,33 @@ import lib.BaseTestCase;
 import lib.DataGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 
+import static lib.StringConstants.*;
+
 public class UserRegisterTest extends BaseTestCase {
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASSWORD = "password";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_FIRSTNAME = "firstName";
-    private static final String KEY_LASTNAME = "lastName";
-    private static final String URL_USER = "https://playground.learnqa.ru/api/user/";
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+
+    private static ArrayList<String> getKeysUserData() {
+        ArrayList<String> keys = new ArrayList<>();
+        keys.add(KEY_EMAIL.toString());
+        keys.add(KEY_PASSWORD.toString());
+        keys.add(KEY_USERNAME.toString());
+        keys.add(KEY_FIRSTNAME.toString());
+        keys.add(KEY_LASTNAME.toString());
+        return keys;
+    }
 
     @Test
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, "learnqa");
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
+        userData.replace(KEY_EMAIL.toString(), email);
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertResponseTextEquals(createAuthResponse, "Users with email '" + email + "' already exists");
@@ -39,15 +41,9 @@ public class UserRegisterTest extends BaseTestCase {
 
     @Test
     public void testCreateUserSuccessful() {
-        String email = DataGenerator.getRandomEmail();
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, "learnqa");
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "200");
         Assertions.assertJsonHasField(createAuthResponse, "id");
@@ -55,16 +51,10 @@ public class UserRegisterTest extends BaseTestCase {
 
     @Test
     public void testCreateUserWithIncorrectEmail() {
-        String email = DataGenerator.getRandomEmail()
-                .replaceFirst("@", "");
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, "learnqa");
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
+        userData.replace(KEY_EMAIL.toString(), userData.get(KEY_EMAIL.toString()).replaceFirst("@", ""));
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertJsonHasNotField(createAuthResponse, "id");
@@ -73,16 +63,10 @@ public class UserRegisterTest extends BaseTestCase {
 
     @Test
     public void testCreateUserWithShortUsername() {
-        String email = DataGenerator.getRandomEmail();
-        String username = DataGenerator.getRandomString(1);
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, username);
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
+        userData.replace(KEY_USERNAME.toString(), DataGenerator.getRandomString(1));
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertJsonHasNotField(createAuthResponse, "id");
@@ -91,36 +75,23 @@ public class UserRegisterTest extends BaseTestCase {
 
     @Test
     public void testCreateUserWithLongUsername() {
-        String email = DataGenerator.getRandomEmail();
-        String username = DataGenerator.getRandomString(251);
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, username);
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
+        userData.replace(KEY_USERNAME.toString(), DataGenerator.getRandomString(251));
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertJsonHasNotField(createAuthResponse, "id");
         Assertions.assertResponseTextEquals(createAuthResponse, "The value of 'username' field is too long");
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {KEY_EMAIL, KEY_PASSWORD, KEY_USERNAME, KEY_FIRSTNAME, KEY_LASTNAME})
+    @ParameterizedTest(name = "Without field: {0}")
+    @MethodSource("getKeysUserData")
     public void testCreateUserWithIncompleteData(String noKeyPresented) {
-        String email = DataGenerator.getRandomEmail();
-        String username = DataGenerator.getRandomString(10);
-        Map<String, String> userData = new HashMap<>();
-        userData.put(KEY_EMAIL, email);
-        userData.put(KEY_PASSWORD, "123");
-        userData.put(KEY_USERNAME, username);
-        userData.put(KEY_FIRSTNAME, "learnqa");
-        userData.put(KEY_LASTNAME, "learnqa");
+        Map<String, String> userData = DataGenerator.getNewUserData();
         userData.remove(noKeyPresented);
 
-        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_USER, userData);
+        Response createAuthResponse = apiCoreRequests.makePostRequest(URL_API_USER.toString(), userData);
 
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertJsonHasNotField(createAuthResponse, "id");

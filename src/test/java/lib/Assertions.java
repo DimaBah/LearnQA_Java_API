@@ -26,6 +26,10 @@ public class Assertions {
         response.then().assertThat().body("$", hasKey(expectedFieldName));
     }
 
+    public static void assertJsonHasField(Response response, Enum expectedFieldName) {
+        response.then().assertThat().body("$", hasKey(expectedFieldName.toString()));
+    }
+
     public static void assertJsonHasFields(Response response, String[] expectedFieldNames) {
         for (String expectedFieldName : expectedFieldNames) {
             assertJsonHasField(response, expectedFieldName);
@@ -34,5 +38,9 @@ public class Assertions {
 
     public static void assertJsonHasNotField(Response response, String unexpectedFieldName) {
         response.then().assertThat().body("$", not(hasKey(unexpectedFieldName)));
+    }
+
+    public static void assertJsonHasNotField(Response response, Enum unexpectedFieldName) {
+        response.then().assertThat().body("$", not(hasKey(unexpectedFieldName.toString())));
     }
 }

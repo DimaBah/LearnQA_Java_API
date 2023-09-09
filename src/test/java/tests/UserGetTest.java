@@ -1,6 +1,5 @@
 package tests;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -22,9 +21,7 @@ public class UserGetTest extends BaseTestCase {
 
     @Test
     public void testUserGetDataNotAuth() {
-        Response responseUserData = RestAssured
-                .get(URL_USER_2)
-                .andReturn();
+        Response responseUserData = apiCoreRequests.makeGetRequest(URL_USER_2);
 
         System.out.println(responseUserData.asString());
         Assertions.assertJsonHasField(responseUserData, KEY_USERNAME);
