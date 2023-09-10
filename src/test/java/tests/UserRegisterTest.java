@@ -17,16 +17,6 @@ import static lib.StringConstants.*;
 public class UserRegisterTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
-    private static ArrayList<String> getKeysUserData() {
-        ArrayList<String> keys = new ArrayList<>();
-        keys.add(KEY_EMAIL.toString());
-        keys.add(KEY_PASSWORD.toString());
-        keys.add(KEY_USERNAME.toString());
-        keys.add(KEY_FIRSTNAME.toString());
-        keys.add(KEY_LASTNAME.toString());
-        return keys;
-    }
-
     @Test
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
@@ -96,5 +86,15 @@ public class UserRegisterTest extends BaseTestCase {
         Assertions.assertResponseCodeeEquals(createAuthResponse, "400");
         Assertions.assertJsonHasNotField(createAuthResponse, "id");
         Assertions.assertResponseTextEquals(createAuthResponse, "The following required params are missed: " + noKeyPresented);
+    }
+
+    private static ArrayList<String> getKeysUserData() {
+        ArrayList<String> keys = new ArrayList<>();
+        keys.add(KEY_EMAIL.toString());
+        keys.add(KEY_PASSWORD.toString());
+        keys.add(KEY_USERNAME.toString());
+        keys.add(KEY_FIRSTNAME.toString());
+        keys.add(KEY_LASTNAME.toString());
+        return keys;
     }
 }

@@ -8,6 +8,8 @@ import io.restassured.response.Response;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static lib.StringConstants.KEY_AUTH_COOKIE;
+import static lib.StringConstants.KEY_AUTH_TOKEN;
 
 public class ApiCoreRequests {
 
@@ -20,11 +22,13 @@ public class ApiCoreRequests {
     }
 
     @Step("Make a GET-request with token and auth cookie")
-    public Response makeGetRequest(String url, String token, String cookie) {
+    public Response makeGetRequest(String url,
+                                   String token,
+                                   String cookie) {
         return given()
                 .filter(new AllureRestAssured())
-                .header(new Header("x-csrf-token", token))
-                .cookie("auth_sid", cookie)
+                .header(new Header(KEY_AUTH_TOKEN.toString(), token))
+                .cookie(KEY_AUTH_COOKIE.toString(), cookie)
                 .get(url)
                 .andReturn();
     }
@@ -33,7 +37,7 @@ public class ApiCoreRequests {
     public Response makeGetRequestWithCookie(String url, String cookie) {
         return given()
                 .filter(new AllureRestAssured())
-                .cookie("auth_sid", cookie)
+                .cookie(KEY_AUTH_COOKIE.toString(), cookie)
                 .get(url)
                 .andReturn();
     }
@@ -42,18 +46,33 @@ public class ApiCoreRequests {
     public Response makeGetRequestWithToken(String url, String token) {
         return given()
                 .filter(new AllureRestAssured())
-                .header(new Header("x-csrf-token", token))
+                .header(new Header(KEY_AUTH_TOKEN.toString(), token))
                 .get(url)
                 .andReturn();
     }
 
     @Step("Make a POST-request")
-    public Response makePostRequest(String url, Map<String, String> authData) {
+    public Response makePostRequest(String url,
+                                    Map<String, String> authData) {
         return given()
                 .filter(new AllureRestAssured())
                 .body(authData)
                 .post(url)
                 .andReturn();
 
+    }
+
+    @Step("Make a PUT-request with token, auth cookie and new data")
+    public Response makePutRequest(String url,
+                                   String token,
+                                   String cookie,
+                                   Map<String, String> editData) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header(KEY_AUTH_TOKEN.toString(), token))
+                .cookie(KEY_AUTH_COOKIE.toString(), cookie)
+                .body(editData)
+                .put(url)
+                .andReturn();
     }
 }

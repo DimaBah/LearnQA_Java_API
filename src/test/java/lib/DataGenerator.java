@@ -29,4 +29,18 @@ public class DataGenerator {
         userData.put(KEY_LASTNAME.toString(), "someText");
         return userData;
     }
+
+    public static Map<String, String> getRegistrationData(Map<String, String> nonDefaultValues) {
+        Map<String, String> defaultValues = getNewUserData();
+        Map<String, String> userData = new HashMap<>();
+        String[] keys = {KEY_EMAIL.toString(), KEY_PASSWORD.toString(), KEY_USERNAME.toString(), KEY_FIRSTNAME.toString(), KEY_LASTNAME.toString()};
+        for (String key : keys) {
+            if (nonDefaultValues.containsKey(key)) {
+                userData.put(key, nonDefaultValues.get(key));
+            } else {
+                userData.put(key, defaultValues.get(key));
+            }
+        }
+        return userData;
+    }
 }
