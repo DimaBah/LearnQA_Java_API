@@ -20,8 +20,8 @@ public class Assertions {
         assertEquals(expectedValue, value, "JSON value is not equal to expected value");
     }
 
-    public static void assertJsonByName(Response response, Enum name, String expectedValue) {
-        response.then().assertThat().body("$", hasKey(name));
+    public static void assertJsonByName(Response response, StringConstants name, String expectedValue) {
+        response.then().assertThat().body("$", hasKey(name.toString()));
         String value = response.jsonPath().getString(name.toString());
         assertEquals(expectedValue, value, "JSON value is not equal to expected value");
     }
@@ -38,7 +38,7 @@ public class Assertions {
         response.then().assertThat().body("$", hasKey(expectedFieldName));
     }
 
-    public static void assertJsonHasField(Response response, Enum expectedFieldName) {
+    public static void assertJsonHasField(Response response, StringConstants expectedFieldName) {
         response.then().assertThat().body("$", hasKey(expectedFieldName.toString()));
     }
 
@@ -52,7 +52,7 @@ public class Assertions {
         response.then().assertThat().body("$", not(hasKey(unexpectedFieldName)));
     }
 
-    public static void assertJsonHasNotField(Response response, Enum unexpectedFieldName) {
+    public static void assertJsonHasNotField(Response response, StringConstants unexpectedFieldName) {
         response.then().assertThat().body("$", not(hasKey(unexpectedFieldName.toString())));
     }
 }

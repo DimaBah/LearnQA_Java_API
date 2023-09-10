@@ -57,7 +57,7 @@ public class GetDataByAuthorizedFromAnotherUserTest extends BaseTestCase {
 
         Response loginResponse = apiCoreRequests.makePostRequest(URL_API_USER_LOGIN.toString(), authData);
 
-        this.cookie = this.getCookie(loginResponse, KEY_AUTH_COOKIE.toString());
-        this.header = this.getHeader(loginResponse, KEY_AUTH_TOKEN.toString());
+        cookie = getCookie(loginResponse, KEY_AUTH_COOKIE.toString());
+        header = getHeader(loginResponse, KEY_AUTH_TOKEN.toString());
     }
 }
