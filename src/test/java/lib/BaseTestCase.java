@@ -9,6 +9,8 @@ import static org.hamcrest.Matchers.hasKey;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BaseTestCase {
+    protected final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+
     protected String getHeader(Response response, String name) {
         Headers headers = response.getHeaders();
         assertTrue(response.headers().hasHeaderWithName(name), "Response doesn't have header with name " + name);
@@ -21,7 +23,7 @@ public class BaseTestCase {
         return cookies.get(name);
     }
 
-    protected int getIntFromJson(Response response, String name){
+    protected int getIntFromJson(Response response, String name) {
         response.then().assertThat().body("$", hasKey(name));
         return response.jsonPath().getInt(name);
     }

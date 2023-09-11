@@ -85,4 +85,16 @@ public class ApiCoreRequests {
                 .put(url)
                 .andReturn();
     }
+
+    @Step("Make a DELETE-request with token and auth cookie.")
+    public Response makDeleteRequest(String url,
+                                     String token,
+                                     String cookie) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header(KEY_AUTH_TOKEN.toString(), token))
+                .cookie(KEY_AUTH_COOKIE.toString(), cookie)
+                .delete(url)
+                .andReturn();
+    }
 }

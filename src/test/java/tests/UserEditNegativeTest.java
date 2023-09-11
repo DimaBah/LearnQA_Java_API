@@ -1,7 +1,6 @@
 package tests;
 
 import io.restassured.response.Response;
-import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
@@ -14,7 +13,6 @@ import java.util.Map;
 import static lib.StringConstants.*;
 
 public class UserEditNegativeTest extends BaseTestCase {
-    private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     private String userId;
     private Map<String, String> newUserData;
 

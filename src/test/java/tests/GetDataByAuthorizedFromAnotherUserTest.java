@@ -1,7 +1,6 @@
 package tests;
 
 import io.restassured.response.Response;
-import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
@@ -14,7 +13,6 @@ import static lib.StringConstants.*;
 
 public class GetDataByAuthorizedFromAnotherUserTest extends BaseTestCase {
     private static final String URL_API_USER_2 = String.format(URL_API_USER_ID_PATTERN.toString(), 2);
-    private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     String cookie;
     String header;
 
