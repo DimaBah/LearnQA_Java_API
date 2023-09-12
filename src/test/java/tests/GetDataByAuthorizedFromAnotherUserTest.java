@@ -1,9 +1,14 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -11,13 +16,19 @@ import java.util.Map;
 
 import static lib.StringConstants.*;
 
+@Epic("Reading data cases")
+@Feature("Reading data")
+@Story("Reading data from another user cases")
 public class GetDataByAuthorizedFromAnotherUserTest extends BaseTestCase {
     private static final String URL_API_USER_2 = String.format(URL_API_USER_ID_PATTERN.toString(), 2);
     String cookie;
     String header;
 
     @Test
+    @Description("This test tries to get data from another user with non authorized request")
+    @DisplayName("Test negative reading data from another user with non authorized request")
     public void testUserGetDataFromAnotherUserWithNonAuthRequest() {
+        //Authorization by new user
         loginAndAuthorizeByNewUser();
 
         Response responseUserData = apiCoreRequests.makeGetRequest(URL_API_USER_2);
@@ -31,7 +42,10 @@ public class GetDataByAuthorizedFromAnotherUserTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to get data from another user with authorized request")
+    @DisplayName("Test negative reading data from another user with authorized request")
     public void testUserGetDataFromAnotherUserWithAuthRequest() {
+        //Authorization by new user
         loginAndAuthorizeByNewUser();
 
         Response responseUserData = apiCoreRequests.makeGetRequest(URL_API_USER_2, header, cookie);

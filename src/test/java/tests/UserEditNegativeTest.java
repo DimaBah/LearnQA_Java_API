@@ -1,10 +1,15 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -12,6 +17,9 @@ import java.util.Map;
 
 import static lib.StringConstants.*;
 
+@Epic("Editing data cases")
+@Feature("Editing just created user data")
+@Story("Positive and negative editing just created user data cases")
 public class UserEditNegativeTest extends BaseTestCase {
     private String userId;
     private Map<String, String> newUserData;
@@ -27,8 +35,9 @@ public class UserEditNegativeTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to edit just created user without authorization")
+    @DisplayName("Test negative edit just created user data without authorization")
     public void testEditJustCreatedUserWithoutAuthorization() {
-
         //Edit
         Map<String, String> editData = new HashMap<>();
         editData.put(KEY_FIRSTNAME.toString(), "Changed Name");
@@ -48,6 +57,8 @@ public class UserEditNegativeTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to edit just created user with another user authorization")
+    @DisplayName("Test negative edit just created user data with another user authorization")
     public void testEditJustCreatedUserWithAnotherUserAuthorization() {
         //Login as another user
         Map<String, String> authData = new HashMap<>();
@@ -79,6 +90,8 @@ public class UserEditNegativeTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to edit just created user with incorrect email")
+    @DisplayName("Test negative edit just created user data with incorrect email")
     public void testEditJustCreatedUserWithBadEmail() {
         //Login
         Map<String, String> authData = new HashMap<>();
@@ -110,6 +123,8 @@ public class UserEditNegativeTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to edit just created user with short firstname")
+    @DisplayName("Test negative edit just created user data with short firstname")
     public void testEditJustCreatedUserWithShortFirstname() {
         //Login
         Map<String, String> authData = new HashMap<>();

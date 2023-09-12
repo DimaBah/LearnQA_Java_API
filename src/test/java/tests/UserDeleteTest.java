@@ -1,9 +1,14 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -11,11 +16,16 @@ import java.util.Map;
 
 import static lib.StringConstants.*;
 
+@Epic("Deleting data cases")
+@Feature("Deleting user")
+@Story("Positive and negative editing just created user data cases")
 public class UserDeleteTest extends BaseTestCase {
     private String userId;
     private Map<String, String> newUserData;
 
     @Test
+    @Description("This test tries to delete user with id 2")
+    @DisplayName("Test negative delete user with id 2")
     public void testDeleteUserWithId_2() {
         //Login
         Map<String, String> authData = new HashMap<>();
@@ -41,6 +51,8 @@ public class UserDeleteTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to delete just created user")
+    @DisplayName("Test positive delete just created user")
     public void testDeleteJustCreatedUser() {
         //Generate new user
         createNewUser();
@@ -69,6 +81,8 @@ public class UserDeleteTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to delete just created user with another user authorization")
+    @DisplayName("Test negative delete just created user with another user authorization")
     public void testDeleteJustCreatedUserWithAnotherUserAuthorization() {
         //Generate new user
         createNewUser();
