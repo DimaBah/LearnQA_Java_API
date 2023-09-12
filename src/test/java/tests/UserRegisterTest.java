@@ -1,9 +1,14 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,6 +18,9 @@ import java.util.Map;
 
 import static lib.StringConstants.*;
 
+@Epic("Registration cases")
+@Feature("Registration")
+@Story("Positive and negative registration cases")
 public class UserRegisterTest extends BaseTestCase {
 
     private static ArrayList<String> getKeysUserData() {
@@ -26,6 +34,8 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to register new user with existing email")
+    @DisplayName("Test negative registration with existing email")
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
         Map<String, String> userData = DataGenerator.getNewUserData();
@@ -38,6 +48,8 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test successfully register new user")
+    @DisplayName("Test positive create user")
     public void testCreateUserSuccessful() {
         Map<String, String> userData = DataGenerator.getNewUserData();
 
@@ -48,6 +60,8 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to register new user with incorrect email")
+    @DisplayName("Test negative registration with incorrect email")
     public void testCreateUserWithIncorrectEmail() {
         Map<String, String> userData = DataGenerator.getNewUserData();
         userData.replace(KEY_EMAIL.toString(), userData.get(KEY_EMAIL.toString()).replaceFirst("@", ""));
@@ -60,6 +74,8 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to register new user with short username")
+    @DisplayName("Test negative registration with short username")
     public void testCreateUserWithShortUsername() {
         Map<String, String> userData = DataGenerator.getNewUserData();
         userData.replace(KEY_USERNAME.toString(), DataGenerator.getRandomString(1));
@@ -72,6 +88,8 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test tries to register new user with long username")
+    @DisplayName("Test negative registration with long username")
     public void testCreateUserWithLongUsername() {
         Map<String, String> userData = DataGenerator.getNewUserData();
         userData.replace(KEY_USERNAME.toString(), DataGenerator.getRandomString(251));
@@ -83,6 +101,8 @@ public class UserRegisterTest extends BaseTestCase {
         Assertions.assertResponseTextEquals(createAuthResponse, "The value of 'username' field is too long");
     }
 
+    @Description("This test tries to register new user with incomplete data")
+    @DisplayName("Test negative registration with incomplete data")
     @ParameterizedTest(name = "Without field: {0}")
     @MethodSource("getKeysUserData")
     public void testCreateUserWithIncompleteData(String noKeyPresented) {
