@@ -1,9 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
@@ -19,6 +16,7 @@ import static lib.StringConstants.*;
 @Epic("Reading data cases")
 @Feature("Reading data")
 @Story("Reading data from another user cases")
+@Owner("Dzmitry Bakhmatski")
 public class GetDataByAuthorizedFromAnotherUserTest extends BaseTestCase {
     private static final String URL_API_USER_2 = String.format(URL_API_USER_ID_PATTERN.toString(), 2);
     String cookie;

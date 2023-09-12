@@ -1,9 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
@@ -20,6 +17,7 @@ import static lib.StringConstants.*;
 @Epic("Editing data cases")
 @Feature("Editing just created user data")
 @Story("Positive and negative editing just created user data cases")
+@Owner("Dzmitry Bakhmatski")
 public class UserEditNegativeTest extends BaseTestCase {
     private String userId;
     private Map<String, String> newUserData;

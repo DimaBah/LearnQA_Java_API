@@ -1,9 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.Assertions;
 import lib.BaseTestCase;
@@ -21,6 +18,7 @@ import static lib.StringConstants.*;
 @Epic("Registration cases")
 @Feature("Registration")
 @Story("Positive and negative registration cases")
+@Owner("Dzmitry Bakhmatski")
 public class UserRegisterTest extends BaseTestCase {
 
     private static ArrayList<String> getKeysUserData() {

@@ -13,7 +13,7 @@ import static lib.StringConstants.KEY_AUTH_TOKEN;
 
 public class ApiCoreRequests {
 
-    @Step("Make a GET-request")
+    @Step("Make a GET-request to: {0}")
     public Response makeGetRequest(String url) {
         return given()
                 .filter(new AllureRestAssured())
@@ -21,7 +21,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a GET-request with token and auth cookie")
+    @Step("Make a GET-request to: {0} with token and auth cookie")
     public Response makeGetRequest(String url,
                                    String token,
                                    String cookie) {
@@ -33,7 +33,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a GET-request with auth cookie only")
+    @Step("Make a GET-request to: {0} with auth cookie only")
     public Response makeGetRequestWithCookie(String url, String cookie) {
         return given()
                 .filter(new AllureRestAssured())
@@ -42,7 +42,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a GET-request with token only")
+    @Step("Make a GET-request to: {0} with token only")
     public Response makeGetRequestWithToken(String url, String token) {
         return given()
                 .filter(new AllureRestAssured())
@@ -51,7 +51,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a POST-request")
+    @Step("Make a POST-request to: {0}")
     public Response makePostRequest(String url,
                                     Map<String, String> authData) {
         return given()
@@ -62,7 +62,7 @@ public class ApiCoreRequests {
 
     }
 
-    @Step("Make a PUT-request with token, auth cookie and new data")
+    @Step("Make a PUT-request to: {0} with token, auth cookie and new data")
     public Response makePutRequest(String url,
                                    String token,
                                    String cookie,
@@ -76,7 +76,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a PUT-request with new data")
+    @Step("Make a PUT-request to: {0} with new data")
     public Response makePutRequest(String url,
                                    Map<String, String> editData) {
         return given()
@@ -86,7 +86,7 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
-    @Step("Make a DELETE-request with token and auth cookie.")
+    @Step("Make a DELETE-request to: {0} with token and auth cookie.")
     public Response makDeleteRequest(String url,
                                      String token,
                                      String cookie) {
